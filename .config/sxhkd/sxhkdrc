@@ -1,0 +1,114 @@
+#Custom program shortcuts
+super + r
+	/home/juftuf/.config/rofi/launchers/misc/launcher.sh
+	
+control + alt + p
+	/home/juftuf/.local/bin/locksuspend.sh
+
+control + alt + x
+	/home/juftuf/.local/bin/lockhibernate.sh
+
+control + alt + l
+	sflock -h
+	
+super + w
+	firefox-bin
+
+super + s
+	STEAM_RUNTIME=1 steam
+
+super + g
+	lutris
+
+super + d
+	discord	
+
+super + e
+	geany
+
+super + f
+	thunar
+
+super + v
+	pavucontrol
+
+super + b
+	virtualbox
+
+super + a
+	/home/juftuf/.local/bin/whatsapp.sh
+
+super + alt + a
+	telegram-desktop
+
+super + m
+	flatpak run com.spotify.Client	
+
+super + alt + o
+	/usr/bin/obs
+
+super + control + o
+	/home/juftuf/.local/bin/killobs.sh
+
+super + Delete
+	/home/juftuf/.local/bin/killpicom.sh
+
+super + Insert
+	/home/juftuf/.local/bin/launchpicom.sh
+
+super + F7
+	/home/juftuf/.local/bin/brightnessnormal.sh
+
+super + F8
+	/home/juftuf/.local/bin/brightnessgame.sh
+
+super + F9
+	/home/juftuf/.local/bin/alsaheadphones.sh
+
+super + F10
+	/home/juftuf/.local/bin/alsaspeakers.sh
+
+super + F11
+	/home/juftuf/.local/bin/killwine.sh
+
+super + F12
+	/home/juftuf/.local/bin/killsteam.sh
+
+Print
+	maim -u ~/Pictures/Screenshots/Screenshot-$(date +%F-%R:%S).png
+
+alt + Print
+	maim -u -s -d 0.7 ~/Pictures/Screenshots/Areascreenshot-$(date +%F-%R:%S).png
+
+control + Print
+	maim -u -i $(xdotool getactivewindow) ~/Pictures/Screenshots/Activewindowscrenshot-$(date +%F-%R:%S).png
+
+XF86Calculator
+	qalculate-gtk
+
+XF86AudioMute
+	pamixer -t
+	
+XF86AudioLowerVolume
+	pamixer --allow-boost -d 5
+
+XF86AudioRaiseVolume
+	pamixer --allow-boost -i 5
+	
+XF86AudioPlay
+	dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+
+XF86AudioStop
+	dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
+
+XF86AudioNext
+	dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+
+XF86AudioPrev
+	dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+
+super + F3
+	/home/juftuf/.local/bin/mo2macro.sh
+
+super + F4
+	/home/juftuf/.local/bin/killmo2macro.sh
