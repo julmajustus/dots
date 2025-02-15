@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Kill existing xdg-desktop-portal processes
+for portal in xdg-desktop-portal-gtk xdg-desktop-portal-hyprland xdg-desktop-portal-wlr xdg-desktop-portal; do
+    pkill -e "$portal"
+done
+
+# Start xdg-desktop-portal-wlr and xdg-desktop-portal-gtk
+/usr/libexec/xdg-desktop-portal-wlr &
+/usr/libexec/xdg-desktop-portal-gtk &
+# /usr/lib/xdg-desktop-portal-hyprland &
+
+sleep 1
+
+# Start main xdg-desktop-portal
+/usr/libexec/xdg-desktop-portal &
+
+exit 0

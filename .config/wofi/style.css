@@ -1,0 +1,66 @@
+/** ********** Fonts ********** **/
+* {
+    font-family: "BigBlueTerm437 Nerd Font", "Noto Sans", sans-serif;
+    font-size: 20px;
+}
+
+/** ********** Window and Input ********** **/
+#window {
+    background-color: --wofi-color0;
+    color: --wofi-color2;
+    border: 2px solid --wofi-color1;
+    border-radius: 0px;
+}
+
+#outer-box {
+    padding: 20px;
+}
+
+#input {
+    background-color: --wofi-color1;
+    border: 0 --wofi-color3;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+/** ********** Scroll and Selection ********** **/
+#scroll {
+    margin-top: 10px;
+}
+
+#entry {
+    padding: 12px;
+    border-radius: 8px;
+}
+
+#entry:selected {
+    background-color: --wofi-color3;
+    color: --wofi-color2;
+    border-radius: 8px;
+}
+
+#text {
+    color: --wofi-color2;
+}
+
+#text:selected {
+    color: --wofi-color0;
+}
+
+/** ********** Additional Customization ********** **/
+#img {
+    padding-right: 12px;
+}
+
+#inner-box {
+}
+
+#unselected {
+}
+
+#selected {
+}
+
+#input, #entry:selected {
+    border-radius: 8px;
+}

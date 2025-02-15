@@ -1,0 +1,175 @@
+
+{
+    "name": "main-bar", 			// Waybar name
+    "id": "main-bar", 				// Waybar id
+    "layer": "top", 				// Waybar at top layer
+    //"mode": "dock", 				// Display mode (dock|hide|invisible|overlay)
+    "exclusive": true, 				// Request an exclusive zone from the compositor
+    "passthrough": false, 			// Pass any pointer events to the window under the bar
+    "position": "top", 				// Waybar position (top|bottom|left|right)
+    "height": 26, 					// Waybar height (to be removed for auto height)
+    "width": "", 					// Waybar width (empty for auto width)
+    "spacing": 0, 					// Gaps between modules
+    "margin": 0, 					// Space around the bar
+    "margin-top": 0, 				// Space above the bar
+    "margin-bottom": 0, 			// Space below the bar
+    "margin-left": 0, 				// Space to the left of the bar
+    "margin-right": 0, 				// Space to the right of the bar
+    "fixed-center": true, 			// Center modules position
+    "ipc": true, 					// Control waybar with `swaymsg bar` commands
+    "gtk-layer-shell": true,
+    // Choose the order of the modules
+    "modules-left": ["custom/menu", "dwl/tags"],
+    "modules-center": [],
+    "modules-right": ["clock", "clock#2", "cpu", "temperature", "temperature#2", "custom/cpu_and_gpu_power_usage", "memory", "memory#2", "pulseaudio", "pulseaudio#2", "network", "network#2", "tray", "custom/power"],
+
+     "dwl/tags": {
+		"num-tags": 17,
+         "tag-labels": [ "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" ],
+		"disable-click": false
+     },
+    
+    "clock": {
+        "interval": "once",
+        "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": " ",
+        "on-click": "",
+    },
+    "clock#2": {
+		"interval": 60,
+        "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+      "format": "{:%H:%M}",
+       "format-alt": "{:%A, %B %d, %Y} "
+    },
+
+    "cpu": {
+         "interval": 5,
+         "format": "<span font-size='large' color='#ffb3b3'></span> {usage}%",
+         "on-click": "",
+    },
+    
+     "temperature": {
+		"thermal-zone": 2,
+		//"hwmon-path": "/sys/class/hwmon/hwmon5/temp1_input",
+		"hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+		"critical-threshold": 80,
+		"format-critical": "<span color='#ffb380'></span> {temperatureC}°C",
+		"format": "<span color='#e6ffff'></span> {temperatureC}°C",
+		"on-click": "", 
+	},
+	
+	"temperature#2": {
+		"thermal-zone": 2,
+		//"hwmon-path": "/sys/class/drm/card0/device/hwmon/hwmon3/temp1_input",
+		"hwmon-path": "/sys/class/drm/card0/device/hwmon/hwmon10/temp1_input",
+		"critical-threshold": 55,
+		"format-critical": "<span color='#ffb380'> </span> {temperatureC}°C",
+		"format": "<span color='#e6ffff'> </span> {temperatureC}°C",
+		"on-click": "",
+	},
+           
+    "custom/cpu_and_gpu_power_usage": {
+         "interval": 25,
+		"format": "<span color='#ffffe6'></span>",
+		"format-alt": "<span color='#ffffe6'></span> {}",
+         "tooltip": false,
+         "exec": "/home/juftuf/.local/bin/get_cpu_and_gpu_power_usage",
+    },
+
+    "custom/menu": {
+         "interval": "once",
+         "format": "  ",
+         "tooltip": false,
+         "on-click": "$HOME/.config/dwl/scripts/launcher",
+    },
+
+    "custom/power": {
+         "interval": "once",
+         "format": "襤 ",
+         "tooltip": false,
+         "on-click": "$HOME/.config/dwl/scripts/powermenu",
+    },
+
+    "memory": {
+         "interval": "once",
+         "format": " ",
+         "on-click": "",
+    },
+    "memory#2": {
+         "interval": 10,
+         "format": "{used:0.1f}G",
+         "on-click": "notify-send '🧠 Memory hogs' \"$(ps axch -o cmd:15,%mem --sort=-%mem | head)\"",
+    },
+           
+    "network": {
+		"interval": 30,
+        //"interface": "wlan*", // (Optional) To force the use of this interface, set it for netspeed to work
+        "format-wifi": "直",
+        "format-ethernet": " ",
+        "format-linked": " ",
+        "format-disconnected": "睊",
+        "format-disabled": "睊",
+        "tooltip-format": " {ifname} via {gwaddr}",
+        "on-click": "[[ ! `pidof nm-connection-editor` ]] && nm-connection-editor || pkill nm-connection-e",
+    },
+    "network#2": {
+		"interval": 5,
+        //"interface": "wlan*", // (Optional) To force the use of this interface, set it for netspeed to work
+        "format-wifi": "{essid}",
+        "format-ethernet": " {bandwidthUpBits} |  {bandwidthDownBits}",
+        "format-linked": "{ifname} (No IP)",
+        "format-disconnected": "Disconnected",
+        "format-disabled": "Disabled",
+        "format-alt": "{ipaddr}/{cidr}",
+        "tooltip-format": " {ifname} via {gwaddr}",
+    },
+
+    "pulseaudio": {
+        //"format": "{volume}% {icon} {format_source}",
+        "format": "{icon}",
+        "format-muted": " ",
+        "format-bluetooth": "",
+        "format-bluetooth-muted": "",
+        "format-source": "",
+        "format-source-muted": " ",
+        "format-icons": {
+            "headphone": " ",
+            "hands-free": "ﳌ ",
+            "headset": " ",
+            "phone": "",
+            "portable": "",
+            "car": " ",
+            "default": [" ", " ", " "]
+        },
+        "scroll-step": 5.0,
+		// Commands to execute on events
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -1%",
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +1%",
+        "smooth-scrolling-threshold": 1,
+        "ignored-sinks": ["Easy Effects Sink"]
+    },
+    "pulseaudio#2": {
+        //"format": "{volume}% {icon} {format_source}",
+        "format": "{volume}%",
+        "format-muted": "Mute",
+        "format-bluetooth": "{volume}%",
+        "format-bluetooth-muted": "Mute",
+        "format-source": "{volume}%",
+        "scroll-step": 5.0,
+		// Commands to execute on events
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -1%",
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +1%",
+        "smooth-scrolling-threshold": 1,
+        "ignored-sinks": ["Easy Effects Sink"]
+    },
+
+    "tray": {
+		 "show-passive-items": true,
+        "icon-size": 24,
+        "spacing": 10
+    }
+}

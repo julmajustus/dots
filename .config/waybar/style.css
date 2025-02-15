@@ -1,0 +1,206 @@
+
+/** ********** Fonts ********** **/
+* {
+    font-family: "JetBrains Mono", "Iosevka Nerd Font";
+    font-size: 24px;
+}
+
+/** ********** Waybar Window ********** 20262C**/
+window#waybar {
+    background-color: #0a0d0f;
+	color: #bbbbbb;
+    border-bottom: 0px solid #0a0d0f;
+    transition-property: background-color;
+    transition-duration: .5s;
+    opacity: 1;
+}
+
+window#waybar.hidden {
+    opacity: 0.5;
+}
+
+/** ********** Custom ********** **/
+
+#custom-cpu_and_gpu_power_usage {
+	background-color: #0a0d0f;
+	/*color: #ffffe6;*/
+	color: #bbbbbb;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 0px 4px 0px 0px ;
+	padding: 0px 4px 0px 4px;
+}
+
+#custom-menu {
+	background-color: #0a0d0f;
+	color: #bbbbbb;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 0px 4px 0px 0px ;
+	padding: 0px 4px 0px 4px;
+}
+
+#custom-power {
+	background-color: #0a0d0f;
+	color: #bbbbbb;
+	font-size: 26px;
+	font-weight: bold;
+	margin: 0px 4px 0px 0px ;
+	padding: 0px 4px 0px 4px;
+}
+
+/** ********** Tray ********** **/
+#tray {
+	background-color: #0a0d0f;
+	margin: 0px 6px 0px 6px ;
+	padding: 0px 6px;
+}
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+#tray > .active {
+}
+#tray menu {
+
+}
+
+/** ********** CPU ********** **/
+/** ********** temperature ********** **/
+#temperature {
+	
+} 
+
+/*#tags {*/
+
+
+/*}*/
+
+#tags button {
+	color: #343A40;
+	padding: 0 3px;
+	
+}
+
+#tags button.occupied {
+	color: #bbbbbb;
+	/*padding: 0 5px;*/
+	
+}
+
+#tags button.focused {
+	color: #9EE9EA;
+	/*padding: 0 5px;*/
+}
+
+#tags button.urgent {
+	color: #E49186;
+	/*padding: 0 5px;*/
+}
+
+/** ********** Memory ********** **/
+#memory {
+	color: #82DF94;
+}
+
+/** ********** Pulseaudio ********** **/
+#pulseaudio {
+	color: #74DD91;
+}
+#pulseaudio.bluetooth {
+	color: #75DBE1;
+}
+#pulseaudio.muted {
+	color: #DB86BA;
+}
+
+#pulseaudio.2 {
+}
+#pulseaudio.2.bluetooth {
+}
+#pulseaudio.2.muted {
+}
+
+/** ********** Backlight ********** **/
+#backlight {
+	color: #E49186;
+}
+
+/** ********** Battery ********** **/
+#battery {
+	color: #B4A1DB;
+}
+#battery.charging {
+}
+#battery.plugged {
+}
+@keyframes blink {
+    to {
+        color: #f1fcf9;
+    }
+}
+#battery.critical:not(.charging) {
+	background-color: #343A40;
+}
+#battery.2.critical:not(.charging) {
+	background-color: #3E444A;
+    color: #D66586;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/** ********** Network ********** **/
+#network {
+	color: #75DBE1;
+}
+#network.disconnected,#network.disabled {
+	color: #DF8293;
+}
+#network.linked {
+}
+#network.ethernet {
+}
+#network.wifi {
+}
+
+/** ********** Clock ********** **/
+#clock {
+	color: #9EE9EA;
+}
+
+/** ********** Common style ********** **/
+#backlight, 
+#battery,
+#clock,
+#cpu,
+#memory,
+#pulseaudio,
+#temperature,
+#network {
+	background-color: #0a0d0f;
+	margin: 0px 0px 0px 0px ;
+	padding: 0px 6px;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+#cpu,
+#backlight.2, 
+#battery.2,
+#clock.2,
+#memory.2,
+#pulseaudio.2,
+#temperature.2,
+#network.2 {
+	background-color: #0a0d0f;
+	color: #bbbbbb;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 0px 4px 0px 0px ;
+	padding: 0px 4px 0px 4px;
+}

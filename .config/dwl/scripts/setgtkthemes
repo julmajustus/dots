@@ -1,0 +1,47 @@
+#!/bin/sh
+
+THEME='Manhattan-jff'
+ICONS='Archdroid-Grey'
+FONT='Noto Sans 10'
+CURSOR='volantes_cursors'
+
+SCHEMA="org.gnome.desktop.interface"
+GSETTINGS="gsettings set"
+
+usage() {
+    echo "Usage: $0 [-t theme] [-i icon_theme] [-f font] [-c cursor_theme]"
+    exit 1
+}
+
+command -v gsettings >/dev/null 2>&1 || { 
+    echo "Error: gsettings is not installed. Please install it and try again."
+    exit 1
+}
+
+# Parse command-line options.
+while getopts "t:i:f:c:h" opt; do
+    case $opt in
+        t) THEME="$OPTARG";;
+        i) ICONS="$OPTARG";;
+        f) FONT="$OPTARG";;
+        c) CURSOR="$OPTARG";;
+        h) usage;;
+        *) usage;;
+    esac
+done
+
+apply_themes() {
+    echo "Setting GTK theme to: $THEME"
+    $GSETTINGS "$SCHEMA" gtk-theme "$THEME" || { echo "Failed to set gtk-theme"; exit 1; }
+    
+    echo "Setting icon theme to: $ICONS"
+    $GSETTINGS "$SCHEMA" icon-theme "$ICONS" || { echo "Failed to set icon-theme"; exit 1; }
+    
+    echo "Setting cursor theme to: $CURSOR"
+    $GSETTINGS "$SCHEMA" cursor-theme "$CURSOR" || { echo "Failed to set cursor-theme"; exit 1; }
+    
+    echo "Setting font to: $FONT"
+    $GSETTINGS "$SCHEMA" font-name "$FONT" || { echo "Failed to set font-name"; exit 1; }
+}
+
+apply_themes

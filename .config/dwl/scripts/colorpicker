@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Check if required commands exist
+for cmd in grim slurp magick wl-copy notify-send awk; do
+    command -v "$cmd" >/dev/null 2>&1 || { echo "Error: '$cmd' not found." >&2; exit 1; }
+done
+
+# Capture color
+color=$(grim -g "`slurp -b 1B1F2800 -p`" -t ppm - | magick - -format '%[pixel:p{0,0}]' txt:- | awk 'NR==2 {print $3}')
+
+# Exit if no color was selected
+[ -z "$color" ] && exit 1
+
+# Copy to clipboard
+printf "%s" "$color" | wl-copy
+
+# Generate a preview image
+image=$(mktemp /tmp/color_XXXXXX.png)
+magick -size 50x50 xc:"$color" "$image"
+
+# Notify the user
+notify-send -u low -i "$image" "$color copied to clipboard."
+
+# Cleanup temp file after a short delay
+(sleep 1; rm -f "$image") &
+
+exit 0

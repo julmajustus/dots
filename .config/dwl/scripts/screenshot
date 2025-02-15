@@ -1,0 +1,53 @@
+#!/bin/sh
+set -eu
+
+# Generate a timestamp.
+timestamp=$(date +%Y-%m-%d-%H-%M-%S)
+# Generate a random number using od (POSIX alternative to $RANDOM).
+random=$(od -vAn -N2 -tu2 < /dev/urandom | tr -d ' ')
+screenshot_dir="$(xdg-user-dir PICTURES)/Screenshots"
+file="Screenshot_${timestamp}_${random}.png"
+filepath="${screenshot_dir}/${file}"
+
+fullscreen() {
+    # Take a full-screen screenshot, save it, and copy it to the clipboard.
+    grim -l 6 - | tee "$filepath" | wl-copy
+}
+
+client() {
+    # Get client geometry and reformat it for grim.
+    w_geom=$(dwlmsg -gG | cut -d' ' -f3-6 | sed 's/\([0-9][0-9]*\) \([0-9][0-9]*\) \([0-9][0-9]*\) \([0-9][0-9]*\)/\1,\2 \3x\4/')
+    grim -l 6 -g "$w_geom" - | tee "$filepath" | wl-copy
+}
+
+area() {
+    # Let the user select an area via slurp, then capture and copy the screenshot.
+    slurp -b 1B1F28CC -c E06B74ff -s C778DD0D -w 2 | grim -l 6 -g- - | tee "$filepath" | wl-copy
+}
+
+# Ensure the screenshot directory exists.
+if [ ! -d "$screenshot_dir" ]; then
+    mkdir -p "$screenshot_dir"
+fi
+
+# Change to the screenshot directory for commands that expect a relative path.
+cd "$screenshot_dir" || { echo "Failed to change directory to $screenshot_dir"; exit 1; }
+
+# Process command-line argument.
+case "${1:-}" in
+    --fullscreen)
+        fullscreen
+        ;;
+    --client)
+        client
+        ;;
+    --area)
+        area
+        ;;
+    *)
+        echo "Usage: $0 --fullscreen|--client|--area"
+        exit 1
+        ;;
+esac
+
+exit 0

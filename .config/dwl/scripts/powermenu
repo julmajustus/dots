@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# Configuration files for wofi
+CONFIG="$HOME/.config/wofi/config"
+STYLE="$HOME/.config/wofi/style.css"
+COLORS="$HOME/.config/wofi/colors"
+
+# Function to display the power menu and handle selections
+power_menu() {
+    # Define menu options
+    options="Shutdown\nRestart\nLock\nSleep\nLogout"
+
+    # Run wofi with specified configuration and get user selection
+    chosen=$(echo "$options" | wofi --show=dmenu \
+                                      --conf="$CONFIG" \
+                                      --style="$STYLE" \
+                                      --color="$COLORS" \
+                                      --width=350 --height=320 \
+                                      --cache-file=/dev/null \
+                                      --hide-scroll --no-actions \
+                                      --define=matching=fuzzy \
+                                      --prompt="Select an action")
+
+    # Handle user selection
+    case "$chosen" in
+        "Shutdown")
+            confirm_action "Shutdown the system?" "loginctl poweroff"
+            ;;
+        "Restart")
+            confirm_action "Restart the system?" "loginctl reboot"
+            ;;
+        "Lock")
+            loginctl lock-session
+            ;;
+        "Sleep")
+            confirm_action "Suspend the system?" "loginctl suspend"
+            ;;
+        "Logout")
+            confirm_action "Log out of the session?" "kill -9 -1"
+            ;;
+        *)
+            ;;
+    esac
+}
+
+# Function to confirm actions
+confirm_action() {
+    message="$1"
+    command="$2"
+
+    # Ask for confirmation using wofi dmenu
+    confirm=$(printf '%s\n' "$message" | wofi --show=dmenu \
+                                             --width=300 --height=40 \
+                                             --cache-file=/dev/null \
+                                             --hide-scroll \
+                                             --prompt="Confirm?")
+
+    if [ "$confirm" = "Yes" ]; then
+        eval "$command"
+    fi
+}
+
+# Main script logic: Check if wofi is running, otherwise open power menu
+if ! pidof wofi >/dev/null; then
+    power_menu
+else
+    pkill wofi
+fi

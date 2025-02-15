@@ -1,0 +1,40 @@
+# Global Configuration
+max-history=5
+sort=-time
+
+# Style Options
+font=BigBlueTerm437 Nerd Font 16
+background-color=#0a0d0f
+text-color=#bbbbbb
+width=400
+height=120
+outer-margin=0
+margin=6
+padding=8
+border-size=1
+border-radius=8
+background-color=#0a0d0f
+border-color=#9EE9EA
+icons=1
+markup=1
+actions=1
+default-timeout=5000
+text-alignment=center
+on-notify=exec mpv /usr/share/sounds/freedesktop/stereo/message.oga
+
+# Criteria Examples
+[urgency=low]
+background-color=#0a0d0f
+text-color=#D8DEE9
+
+[urgency=normal]
+background-color=#0a0d0f
+text-color=#D8DEE9
+
+[urgency=critical]
+background-color=#0a0d0f
+text-color=#ECEFF4
+
+# Click Actions
+on-button-left=invoke-default-action
+on-button-right=dismiss

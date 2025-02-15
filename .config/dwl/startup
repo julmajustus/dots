@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# Kill already running process
+pkill -9 -x waybar mako xfce-polkit polkit-gnome-authentication-agent-1 input-remapper-control pipewire wireplumber hypridle easyeffects
+
+# Launch xdg-desktop-portals
+"$HOME/.config/dwl/scripts/xdg-desktop-portal-launch" &
+
+# Polkit agent (check if available)
+if [ -x "/usr/libexec/polkit-gnome-authentication-agent-1" ]; then
+    /usr/libexec/polkit-gnome-authentication-agent-1 &
+elif [ -x "/usr/lib/xfce-polkit/xfce-polkit" ]; then
+    /usr/lib/xfce-polkit/xfce-polkit &
+fi
+
+# Set wallpaper
+wbg "$HOME/.config/dwl/wallpapers/paperland13.png" &
+
+# Launch status bar
+waybar --bar main-bar --log-level error &
+
+# Apply themes
+"$HOME/.config/dwl/scripts/setgtkthemes" &
+
+# Start foot server
+foot --server &
+
+# Start pipewire
+gentoo-pipewire-launcher & 
+
+# Start easyeffects (delayed)
+(sleep 0.2; easyeffects --gapplication-service) &
+
+# Start Thunar daemon
+thunar --daemon &
+
+# Start input remapper if available
+if command -v input-remapper-control >/dev/null 2>&1; then
+    input-remapper-control --command autoload &
+fi
+
+# Launch notification daemon
+mako &
+
+# Launch idle lock
+hypridle &
+#swayidle -w &
+
+# sway-audio-idle-inhibit
+(sleep 1; sway-audio-idle-inhibit) &
+
+# Ensure DBus environment is updated
+exec dbus-update-environment WAYLAND_DISPLAY
